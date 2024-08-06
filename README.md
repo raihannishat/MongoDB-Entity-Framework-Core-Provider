@@ -8,15 +8,15 @@ The UnitOfWork pattern is designed to maintain a list of objects affected by a b
 ## ![Example Image](https://github.com/raihannishat/MongoDB-Entity-Framework-Core-Provider/blob/main/example-endpoints.png)
 
 # OOP Principles and Considerations
-## Dependency Injection:
-* Using IServiceProvider to resolve repositories dynamically can be seen as a pragmatic approach to avoid manually managing repository instances.
+## 1. Dependency Injection:
+Using IServiceProvider to resolve repositories dynamically can be seen as a pragmatic approach to avoid manually managing repository instances.
 However, it can introduce a hidden dependency and reduce the clarity of the dependencies required by the UnitOfWork.
 
-## Single Responsibility Principle (SRP):
-* The UnitOfWork class should manage the database context and coordinate transactions. By resolving repositories dynamically, it’s slightly taking on additional responsibility related to dependency resolution.
+## 2. Single Responsibility Principle (SRP):
+The UnitOfWork class should manage the database context and coordinate transactions. By resolving repositories dynamically, it’s slightly taking on additional responsibility related to dependency resolution.
 
-## Explicit Dependencies Principle:
-* Explicitly injecting dependencies (repositories) into the UnitOfWork constructor is generally preferred. This approach makes the class's dependencies clear and improves testability.
+## 3. Explicit Dependencies Principle:
+Explicitly injecting dependencies (repositories) into the UnitOfWork constructor is generally preferred. This approach makes the class's dependencies clear and improves testability.
 
 # Unit of Work Pattern Rules
 The traditional UnitOfWork pattern involves:
