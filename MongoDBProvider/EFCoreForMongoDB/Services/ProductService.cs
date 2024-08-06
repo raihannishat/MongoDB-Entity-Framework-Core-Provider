@@ -31,7 +31,7 @@ public class ProductService : IProductService
 
         if (productEntity != null)
         {
-            _unitOfWork.Repository<Product>().Update(productEntity);
+            _unitOfWork.Repository<Product>().Update(product);
             await _unitOfWork.CommitChangesAsync();
         }
     }
