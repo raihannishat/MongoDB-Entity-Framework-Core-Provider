@@ -34,7 +34,6 @@ public class ProductService : IProductService
         await _unitOfWork.CommitChangesAsync();
     }
 
-
     public async Task DeleteProductAsync(string id)
     {
         var product = await _unitOfWork.Repository<Product>().GetByIdAsync(id);
