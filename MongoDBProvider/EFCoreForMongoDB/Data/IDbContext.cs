@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using EFCoreForMongoDB.Entities;
-
-namespace EFCoreForMongoDB.Data;
+﻿namespace EFCoreForMongoDB.Data;
 
 public interface IDbContext
 {
