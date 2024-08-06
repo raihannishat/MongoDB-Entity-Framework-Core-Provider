@@ -33,5 +33,5 @@ By using static methods, you can directly call the methods without needing to ma
 ## 3. Thread Safety
 Static methods are inherently thread-safe when they do not modify any shared state. Since the methods used for mapping endpoints typically only configure routing and do not maintain any state, they are safe to use in a multi-threaded environment like a web server.
 
-# 4. Clear Separation of Concerns
+## 4. Clear Separation of Concerns
 Using static methods can help to clearly separate the endpoint definitions from other application logic. This can make your code easier to understand and maintain, as the endpoint definitions are isolated in a dedicated static class.
