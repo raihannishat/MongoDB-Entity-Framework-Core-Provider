@@ -27,16 +27,19 @@ public class ProductService : IProductService
 
     public async Task UpdateProductAsync(Product product)
     {
-        var existingProduct = await _unitOfWork.Repository<Product>().GetByIdAsync(product.Id) 
-            ?? throw new KeyNotFoundException($"Product with ID '{product.Id}' does not exist.");
+        var productEntity = await _unitOfWork.Repository<Product>().GetByIdAsync(product.Id);
 
-        _unitOfWork.Repository<Product>().Update(product);
-        await _unitOfWork.CommitChangesAsync();
+        if (productEntity != null)
+        {
+            _unitOfWork.Repository<Product>().Update(productEntity);
+            await _unitOfWork.CommitChangesAsync();
+        }
     }
 
     public async Task DeleteProductAsync(string id)
     {
         var product = await _unitOfWork.Repository<Product>().GetByIdAsync(id);
+
         if (product != null)
         {
             _unitOfWork.Repository<Product>().Delete(product);
