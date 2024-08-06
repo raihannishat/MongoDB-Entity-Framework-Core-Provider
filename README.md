@@ -3,6 +3,29 @@ To use MongoDB with Entity Framework Core (EF Core) in an ASP.NET Core applicati
 
 NuGet : https://www.nuget.org/packages/MongoDB.EntityFrameworkCore
 
+The UnitOfWork pattern is designed to maintain a list of objects affected by a business transaction and coordinate the writing out of changes and the resolution of concurrency problems. The way you've implemented the UnitOfWork class can work, but there are a few considerations regarding object-oriented programming (OOP) principles and the traditional intent of the UnitOfWork pattern.
+
+OOP Principles and Considerations
+Dependency Injection:
+
+Using IServiceProvider to resolve repositories dynamically can be seen as a pragmatic approach to avoid manually managing repository instances.
+However, it can introduce a hidden dependency and reduce the clarity of the dependencies required by the UnitOfWork.
+Single Responsibility Principle (SRP):
+
+The UnitOfWork class should manage the database context and coordinate transactions. By resolving repositories dynamically, it’s slightly taking on additional responsibility related to dependency resolution.
+Explicit Dependencies Principle:
+
+Explicitly injecting dependencies (repositories) into the UnitOfWork constructor is generally preferred. This approach makes the class's dependencies clear and improves testability.
+Unit of Work Pattern Rules
+The traditional UnitOfWork pattern involves:
+
+Keeping track of changes to objects and coordinating the persistence of those changes.
+Managing the lifecycle of repositories.
+Your approach:
+
+Leverages the DI container for repository instantiation, which is a modern and practical approach.
+Still aligns with the intent of the pattern by centralizing the transaction management.
+
 Using static methods for mapping minimal API endpoints in ASP.NET Core has several advantages. Here’s a detailed explanation of why static methods are useful in this context:
 
 1. No Instance Required
