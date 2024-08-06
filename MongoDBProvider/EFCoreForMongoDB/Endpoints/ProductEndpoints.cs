@@ -14,55 +14,44 @@ public static class ProductEndpoints
         productGroup.MapDelete("/{id}", DeleteProduct);
     }
 
-    private static async Task<IResult> GetProducts(IUnitOfWork unitOfWork)
+    private static async Task<IResult> GetProducts(IProductService productService)
     {
-        var products = await unitOfWork.Repository<Product>().GetAllAsync();
+        var products = await productService.GetAllProductsAsync();
         return Results.Ok(products);
     }
 
-    private static async Task<IResult> GetProduct(string id, IUnitOfWork unitOfWork)
+    private static async Task<IResult> GetProduct(string id, IProductService productService)
     {
-        var product = await unitOfWork.Repository<Product>().GetByIdAsync(id);
+        var product = await productService.GetProductByIdAsync(id);
         return product == null ? Results.NotFound() : Results.Ok(product);
     }
 
-    private static async Task<IResult> SearchProducts(string name, IUnitOfWork unitOfWork)
+    private static async Task<IResult> SearchProducts(string name, IProductService productService)
     {
-        var products = await unitOfWork.Repository<Product>()
-            .FindAsync(p => p.Name.Contains(name));
-        
+        var products = await productService.SearchProductsAsync(p => p.Name.Contains(name));
         return Results.Ok(products);
     }
 
-    private static async Task<IResult> CreateProduct(Product product, IUnitOfWork unitOfWork)
+    private static async Task<IResult> CreateProduct(Product product, IProductService productService)
     {
-        await unitOfWork.Repository<Product>().AddAsync(product);
-        await unitOfWork.CommitChangesAsync();
+        await productService.AddProductAsync(product);
         return Results.Created($"/api/products/{product.Id}", product);
     }
 
-    private static async Task<IResult> UpdateProduct(string id, Product product, IUnitOfWork unitOfWork)
+    private static async Task<IResult> UpdateProduct(string id, Product product, IProductService productService)
     {
         if (id != product.Id)
         {
             return Results.BadRequest();
         }
 
-        unitOfWork.Repository<Product>().Update(product);
-        await unitOfWork.CommitChangesAsync();
+        await productService.UpdateProductAsync(product);
         return Results.NoContent();
     }
 
-    private static async Task<IResult> DeleteProduct(string id, IUnitOfWork unitOfWork)
+    private static async Task<IResult> DeleteProduct(string id, IProductService productService)
     {
-        var product = await unitOfWork.Repository<Product>().GetByIdAsync(id);
-        if (product == null)
-        {
-            return Results.NotFound();
-        }
-
-        unitOfWork.Repository<Product>().Delete(product);
-        await unitOfWork.CommitChangesAsync();
+        await productService.DeleteProductAsync(id);
         return Results.NoContent();
     }
 }
