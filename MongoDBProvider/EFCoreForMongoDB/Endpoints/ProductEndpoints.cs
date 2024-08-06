@@ -8,31 +8,40 @@ public static class ProductEndpoints
 
         productGroup.MapGet("/", GetProducts);
         productGroup.MapGet("/{id}", GetProduct);
+        productGroup.MapGet("/search", SearchProducts);
         productGroup.MapPost("/", CreateProduct);
         productGroup.MapPut("/{id}", UpdateProduct);
         productGroup.MapDelete("/{id}", DeleteProduct);
     }
 
-    public static async Task<IResult> GetProducts(IUnitOfWork unitOfWork)
+    private static async Task<IResult> GetProducts(IUnitOfWork unitOfWork)
     {
         var products = await unitOfWork.Repository<Product>().GetAllAsync();
         return Results.Ok(products);
     }
 
-    public static async Task<IResult> GetProduct(string id, IUnitOfWork unitOfWork)
+    private static async Task<IResult> GetProduct(string id, IUnitOfWork unitOfWork)
     {
         var product = await unitOfWork.Repository<Product>().GetByIdAsync(id);
         return product == null ? Results.NotFound() : Results.Ok(product);
     }
 
-    public static async Task<IResult> CreateProduct(Product product, IUnitOfWork unitOfWork)
+    private static async Task<IResult> SearchProducts(string name, IUnitOfWork unitOfWork)
+    {
+        var products = await unitOfWork.Repository<Product>()
+            .FindAsync(p => p.Name.Contains(name));
+        
+        return Results.Ok(products);
+    }
+
+    private static async Task<IResult> CreateProduct(Product product, IUnitOfWork unitOfWork)
     {
         await unitOfWork.Repository<Product>().AddAsync(product);
         await unitOfWork.CommitChangesAsync();
         return Results.Created($"/api/products/{product.Id}", product);
     }
 
-    public static async Task<IResult> UpdateProduct(string id, Product product, IUnitOfWork unitOfWork)
+    private static async Task<IResult> UpdateProduct(string id, Product product, IUnitOfWork unitOfWork)
     {
         if (id != product.Id)
         {
@@ -44,7 +53,7 @@ public static class ProductEndpoints
         return Results.NoContent();
     }
 
-    public static async Task<IResult> DeleteProduct(string id, IUnitOfWork unitOfWork)
+    private static async Task<IResult> DeleteProduct(string id, IUnitOfWork unitOfWork)
     {
         var product = await unitOfWork.Repository<Product>().GetByIdAsync(id);
         if (product == null)

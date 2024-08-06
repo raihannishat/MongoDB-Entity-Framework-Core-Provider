@@ -35,4 +35,9 @@ public class Repository<T> : IRepository<T> where T : class, IEntity
     {
         _dbSet.Remove(entity);
     }
+
+    public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
+    {
+        return await _dbSet.Where(predicate).ToListAsync();
+    }
 }
