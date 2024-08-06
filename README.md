@@ -5,6 +5,8 @@ NuGet : https://www.nuget.org/packages/MongoDB.EntityFrameworkCore
 
 The UnitOfWork pattern is designed to maintain a list of objects affected by a business transaction and coordinate the writing out of changes and the resolution of concurrency problems. The way you've implemented the UnitOfWork class can work, but there are a few considerations regarding object-oriented programming (OOP) principles and the traditional intent of the UnitOfWork pattern.
 
+## ![Example Image](https://github.com/raihannishat/MongoDB-Entity-Framework-Core-Provider/blob/main/endpoints.png)
+
 # OOP Principles and Considerations
 ## Dependency Injection:
 * Using IServiceProvider to resolve repositories dynamically can be seen as a pragmatic approach to avoid manually managing repository instances.
