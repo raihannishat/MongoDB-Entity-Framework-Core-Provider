@@ -1,0 +1,6 @@
+@EFCoreForMongoDB_HostAddress = http://localhost:5271
+
+GET {{EFCoreForMongoDB_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
