@@ -5,6 +5,31 @@ NuGet : https://www.nuget.org/packages/MongoDB.EntityFrameworkCore
 
 The UnitOfWork pattern is designed to maintain a list of objects affected by a business transaction and coordinate the writing out of changes and the resolution of concurrency problems. The way you've implemented the UnitOfWork class can work, but there are a few considerations regarding object-oriented programming (OOP) principles and the traditional intent of the UnitOfWork pattern.
 
+Category :
+```json
+{
+  "_id": "b08c2e68-6a43-4c09-8a2c-0f6d84c99b82",
+  "Description": "All electronic items",
+  "Name": "Electronics"
+}
+```
+
+Product :
+```json
+{
+  "_id": "f9b6f52a-8c2e-4f6d-8d1a-29958a67c68a",
+  "CategoryId": "b08c2e68-6a43-4c09-8a2c-0f6d84c99b82",
+  "Name": "Smartphone",
+  "Price": "299.99"
+},
+{
+  "_id": "36751ca3-5535-4f39-a36a-b5bff46a4549",
+  "CategoryId": "b08c2e68-6a43-4c09-8a2c-0f6d84c99b82",
+  "Name": "Headphone",
+  "Price": "250.50"
+}
+```
+
 ## ![Example Image](https://github.com/raihannishat/MongoDB-Entity-Framework-Core-Provider/blob/main/example-endpoints.png)
 
 ## OOP Principles and Considerations
