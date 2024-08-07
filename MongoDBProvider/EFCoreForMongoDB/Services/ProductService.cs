@@ -11,46 +11,47 @@ public class ProductService : IProductService
 
     public async Task<IEnumerable<Product>> GetAllProductsAsync()
     {
-        return await _unitOfWork.Repository<Product>().GetAllAsync();
+        return await _unitOfWork.GetRepository<Product>().GetAllAsync();
     }
 
     public async Task<Product> GetProductByIdAsync(string id)
     {
-        return await _unitOfWork.Repository<Product>().GetByIdAsync(id);
+        return await _unitOfWork.GetRepository<Product>().GetByIdAsync(id);
     }
 
     public async Task AddProductAsync(Product product)
     {
-        await _unitOfWork.Repository<Product>().AddAsync(product);
+        await _unitOfWork.GetRepository<Product>().AddAsync(product);
         await _unitOfWork.CommitChangesAsync();
     }
 
     public async Task UpdateProductAsync(Product product)
     {
-        var productEntity = await _unitOfWork.Repository<Product>().GetByIdAsync(product.Id);
+        var existingProduct = await _unitOfWork.GetRepository<Product>().GetByIdAsync(product.Id);
 
-        if (productEntity != null)
+        if (existingProduct != null)
         {
-            productEntity.Name = product.Name;
-            productEntity.Price = product.Price;
-            _unitOfWork.Repository<Product>().Update(productEntity);
+            existingProduct.Name = product.Name;
+            existingProduct.Price = product.Price;
+
+            _unitOfWork.GetRepository<Product>().Update(existingProduct);
             await _unitOfWork.CommitChangesAsync();
         }
     }
 
     public async Task DeleteProductAsync(string id)
     {
-        var product = await _unitOfWork.Repository<Product>().GetByIdAsync(id);
+        var product = await _unitOfWork.GetRepository<Product>().GetByIdAsync(id);
 
         if (product != null)
         {
-            _unitOfWork.Repository<Product>().Delete(product);
+            _unitOfWork.GetRepository<Product>().Delete(product);
             await _unitOfWork.CommitChangesAsync();
         }
     }
 
     public async Task<IEnumerable<Product>> SearchProductsAsync(Expression<Func<Product, bool>> predicate)
     {
-        return await _unitOfWork.Repository<Product>().FindAsync(predicate);
+        return await _unitOfWork.GetRepository<Product>().FindAsync(predicate);
     }
 }
