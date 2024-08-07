@@ -30,8 +30,6 @@ Product :
 }
 ```
 
-## ![Example Image](https://github.com/raihannishat/MongoDB-Entity-Framework-Core-Provider/blob/main/example-endpoints.png)
-
 ## OOP Principles and Considerations
 ### [1] Dependency Injection:
 Using IServiceProvider to resolve repositories dynamically can be seen as a pragmatic approach to avoid manually managing repository instances.
