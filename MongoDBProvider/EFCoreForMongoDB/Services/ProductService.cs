@@ -14,6 +14,19 @@ public class ProductService : IProductService
         return await _unitOfWork.GetRepository<Product>().GetAllAsync();
     }
 
+    public async Task<string> GetProductTypeAsync(string productId)
+    {
+        var product = await _unitOfWork.GetRepository<Product>().GetByIdAsync(productId);
+
+        if (product != null) 
+        {
+            var productType = await _unitOfWork.GetRepository<Category>().GetByIdAsync(product.CategoryId);
+            return productType.Name;
+        }
+
+        return string.Empty;
+    }
+
     public async Task<Product> GetProductByIdAsync(string id)
     {
         return await _unitOfWork.GetRepository<Product>().GetByIdAsync(id);

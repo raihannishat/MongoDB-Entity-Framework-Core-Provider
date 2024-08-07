@@ -7,5 +7,6 @@ public interface IProductService
     Task AddProductAsync(Product product);
     Task UpdateProductAsync(Product product);
     Task DeleteProductAsync(string id);
+    Task<string> GetProductTypeAsync(string productId);
     Task<IEnumerable<Product>> SearchProductsAsync(Expression<Func<Product, bool>> predicate);
 }

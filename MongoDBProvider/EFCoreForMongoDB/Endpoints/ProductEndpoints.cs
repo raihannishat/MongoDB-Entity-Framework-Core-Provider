@@ -8,6 +8,7 @@ public static class ProductEndpoints
 
         productGroup.MapGet("/", GetProducts);
         productGroup.MapGet("/{id}", GetProduct);
+        productGroup.MapGet("/{id}/type", GetProductType);
         productGroup.MapGet("/search", SearchProducts);
         productGroup.MapPost("/", CreateProduct);
         productGroup.MapPut("/{id}", UpdateProduct);
@@ -18,6 +19,12 @@ public static class ProductEndpoints
     {
         var products = await productService.GetAllProductsAsync();
         return Results.Ok(products);
+    }
+
+    private static async Task<IResult> GetProductType(string productId, IProductService productService)
+    {
+        var type = await productService.GetProductTypeAsync(productId);
+        return Results.Ok(type);
     }
 
     private static async Task<IResult> GetProduct(string id, IProductService productService)
