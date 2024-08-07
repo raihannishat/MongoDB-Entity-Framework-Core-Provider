@@ -6,46 +6,46 @@ public static class ProductEndpoints
     {
         var productGroup = app.MapGroup("/api/products");
 
-        productGroup.MapGet("/", GetProducts);
-        productGroup.MapGet("/{id}", GetProduct);
-        productGroup.MapGet("/{id}/type", GetProductType);
-        productGroup.MapGet("/search", SearchProducts);
-        productGroup.MapPost("/", CreateProduct);
-        productGroup.MapPut("/{id}", UpdateProduct);
-        productGroup.MapDelete("/{id}", DeleteProduct);
+        productGroup.MapGet("/", GetProductsAsync);
+        productGroup.MapGet("/{id}", GetProductAsync);
+        productGroup.MapGet("/{id}/type", GetProductTypeAsync);
+        productGroup.MapGet("/search", SearchProductsAsync);
+        productGroup.MapPost("/", CreateProductAsync);
+        productGroup.MapPut("/{id}", UpdateProductAsync);
+        productGroup.MapDelete("/{id}", DeleteProductAsync);
     }
 
-    private static async Task<IResult> GetProducts(IProductService productService)
+    private static async Task<IResult> GetProductsAsync(IProductService productService)
     {
         var products = await productService.GetAllProductsAsync();
         return Results.Ok(products);
     }
 
-    private static async Task<IResult> GetProductType(string productId, IProductService productService)
+    private static async Task<IResult> GetProductTypeAsync(string productId, IProductService productService)
     {
         var type = await productService.GetProductTypeAsync(productId);
         return Results.Ok(type);
     }
 
-    private static async Task<IResult> GetProduct(string id, IProductService productService)
+    private static async Task<IResult> GetProductAsync(string id, IProductService productService)
     {
         var product = await productService.GetProductByIdAsync(id);
         return product == null ? Results.NotFound() : Results.Ok(product);
     }
 
-    private static async Task<IResult> SearchProducts(string name, IProductService productService)
+    private static async Task<IResult> SearchProductsAsync(string name, IProductService productService)
     {
         var products = await productService.SearchProductsAsync(p => p.Name.Contains(name));
         return Results.Ok(products);
     }
 
-    private static async Task<IResult> CreateProduct(Product product, IProductService productService)
+    private static async Task<IResult> CreateProductAsync(Product product, IProductService productService)
     {
         await productService.AddProductAsync(product);
         return Results.Created($"/api/products/{product.Id}", product);
     }
 
-    private static async Task<IResult> UpdateProduct(string id, Product product, IProductService productService)
+    private static async Task<IResult> UpdateProductAsync(string id, Product product, IProductService productService)
     {
         if (id != product.Id)
         {
@@ -56,7 +56,7 @@ public static class ProductEndpoints
         return Results.NoContent();
     }
 
-    private static async Task<IResult> DeleteProduct(string id, IProductService productService)
+    private static async Task<IResult> DeleteProductAsync(string id, IProductService productService)
     {
         await productService.DeleteProductAsync(id);
         return Results.NoContent();
